@@ -3,4 +3,3 @@ from Ynab import Ynab
 
 if __name__ == '__main__':
     ynab = Ynab(SECRETS['token'])
-    assert ynab.test_connection()
