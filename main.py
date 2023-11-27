@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from Ynab import Ynab
+from ynab import Ynab
 from secrets import SECRETS
 
 def build_settle_up_transaction_params(my_account_id, their_name, my_subtransactions, their_subtransactions):
