@@ -9,15 +9,21 @@ class User:
         self.name = SECRETS[secrets_id]['name']
         self.ynab = Ynab(SECRETS[secrets_id]['token'])
         self.default_account_id = self._get_default_account_id()
+        self.split_transaction_flag = SECRETS[secrets_id]['split_transaction_flag']
+        self.settle_up_transaction_flag = SECRETS[secrets_id]['settle_up_transaction_flag']
 
     def get_transactions_since_last_settled(self):
+        last_settled_date = "1970-01-01"
         transactions = self.ynab.get_transactions()
         transactions_since_last_settled = []
         for i in transactions[::-1]:
-            if i['flag_color'] == 'red':
-                transactions_since_last_settled.append(i)
-            elif i['flag_color'] == 'blue':
+            if i['date'] < last_settled_date:
                 break
+            elif i['flag_color'] == self.split_transaction_flag:
+                transactions_since_last_settled.append(i)
+            elif i['flag_color'] == self.settle_up_transaction_flag:
+                last_settled_date = i['date']
+
         return transactions_since_last_settled
 
     def create_settle_up_transaction(self, their_name, my_subtransactions, their_subtransactions):
@@ -44,7 +50,7 @@ class User:
                 'payee_name': their_name,
                 'cleared': 'uncleared',
                 'approved': False,
-                'flag_color': 'blue',
+                'flag_color': self.settle_up_transaction_flag,
                 'subtransactions': subtransactions
             }
         }
