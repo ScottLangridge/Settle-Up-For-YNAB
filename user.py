@@ -1,6 +1,7 @@
+from datetime import datetime
+
 from secrets import SECRETS
 from ynab import Ynab
-from datetime import datetime
 
 
 class User:

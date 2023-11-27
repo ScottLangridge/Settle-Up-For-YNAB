@@ -1,6 +1,8 @@
-import requests
-import curlify
 import json
+
+import curlify
+import requests
+
 
 class Ynab:
     def __init__(self, api_token):
