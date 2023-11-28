@@ -14,7 +14,7 @@ class User:
         self.settle_up_transaction_flag = SECRETS[secrets_id]['settle_up_transaction_flag']
 
     def get_transactions_since_last_settled(self):
-        last_settled_date = "1970-01-01"
+        last_settled_date = '1970-01-01'
         transactions = self.ynab.get_transactions()
         transactions_since_last_settled = []
         for i in transactions[::-1]:
