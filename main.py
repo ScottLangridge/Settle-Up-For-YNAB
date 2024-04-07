@@ -1,7 +1,7 @@
 from user import User
 
 if __name__ == '__main__':
-    print('creating user')
+    print('creating users')
     user_a = User('user_a')
     user_b = User('user_b')
 
@@ -11,6 +11,6 @@ if __name__ == '__main__':
 
     print('creating transaction')
     user_a.create_settle_up_transaction(user_b.name, transactions_a, transactions_b)
-    user_a.create_settle_up_transaction(user_a.name, transactions_b, transactions_a)
+    user_b.create_settle_up_transaction(user_a.name, transactions_b, transactions_a)
 
     print('done')
