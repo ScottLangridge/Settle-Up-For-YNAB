@@ -8,7 +8,7 @@ class User:
     def __init__(self, secrets_id):
         self.secrets_id = secrets_id
         self.name = SECRETS[secrets_id]['name']
-        self.ynab = Ynab(SECRETS[secrets_id]['token'])
+        self.ynab = Ynab(SECRETS[secrets_id]['token'], SECRETS[secrets_id]['budget_id'])
         self.default_account_id = self._get_default_account_id()
         self.split_transaction_flag = SECRETS[secrets_id]['split_transaction_flag']
         self.settle_up_transaction_flag = SECRETS[secrets_id]['settle_up_transaction_flag']

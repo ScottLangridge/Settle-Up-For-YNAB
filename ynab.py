@@ -5,12 +5,18 @@ import requests
 
 
 class Ynab:
-    def __init__(self, api_token):
+    def __init__(self, api_token, budget_id):
         self.ROOT_URL = 'https://api.ynab.com/v1'
 
         self.api_token = api_token
         self._test_connection()
-        self.budget_id = self._get_budget_id()
+        self.budget_id = budget_id
+        assert self.budget_exists(budget_id), 'Budget does not exist'
+
+
+    def budget_exists(self, budget_id):
+        endpoint = f'/budgets/{budget_id}'
+        return self._get(endpoint)
 
     def get_transactions(self):
         endpoint = f'/budgets/{self.budget_id}/transactions'
@@ -26,13 +32,6 @@ class Ynab:
 
     def get_accounts(self):
         return self._get(f'/budgets/{self.budget_id}/accounts')['accounts']
-
-    def _get_budget_id(self):
-        budgets = self._get('/budgets')['budgets']
-
-        # Implement OAuth to if more than one budget exists. See https://api.ynab.com/#oauth-default-budget
-        assert len(budgets) == 1, 'YNAB API Accessor currently only supports accounts with one budget'
-        return budgets[0]['id']
 
     def _test_connection(self):
         endpoint = '/budgets'
