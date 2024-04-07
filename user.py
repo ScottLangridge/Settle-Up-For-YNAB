@@ -34,13 +34,15 @@ class User:
             amount -= subtransaction['amount'] // 2
             subtransactions.append({
                 'amount': -(subtransaction['amount'] // 2),
-                'payee_name': subtransaction['payee_name']
+                'payee_name': subtransaction['payee_name'],
+                'memo': subtransaction['memo']
             })
         for subtransaction in their_subtransactions:
             amount += subtransaction['amount'] // 2
             subtransactions.append({
                 'amount': subtransaction['amount'] // 2,
-                'payee_name': subtransaction['payee_name']
+                'payee_name': subtransaction['payee_name'],
+                'memo': subtransaction['memo']
             })
 
         params = {
