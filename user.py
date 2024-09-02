@@ -30,17 +30,31 @@ class User:
     def create_settle_up_transaction(self, their_name, my_subtransactions, their_subtransactions):
         amount = 0
         subtransactions = []
+
         for subtransaction in my_subtransactions:
-            amount -= subtransaction['amount'] // 2
+            # If the value of a split transaction is odd, round it up, so it can be split evenly.
+            # amount is an int, where 1000 = £1.
+            split_subtransaction_amount = subtransaction['amount'] // 2
+            if (split_subtransaction_amount // 10) % 2 == 1:
+               split_subtransaction_amount += 5
+
+            amount -= split_subtransaction_amount
             subtransactions.append({
-                'amount': -(subtransaction['amount'] // 2),
+                'amount': -(split_subtransaction_amount),
                 'payee_name': subtransaction['payee_name'],
                 'memo': subtransaction['memo']
             })
+
         for subtransaction in their_subtransactions:
-            amount += subtransaction['amount'] // 2
+            # If the value of a split transaction is odd, round it up, so it can be split evenly.
+            # amount is an int, where 1000 = £1.
+            split_subtransaction_amount = subtransaction['amount'] // 2
+            if (split_subtransaction_amount // 10) % 2 == 1:
+                split_subtransaction_amount += 5
+
+            amount += split_subtransaction_amount
             subtransactions.append({
-                'amount': subtransaction['amount'] // 2,
+                'amount': split_subtransaction_amount,
                 'payee_name': subtransaction['payee_name'],
                 'memo': subtransaction['memo']
             })
