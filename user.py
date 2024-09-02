@@ -28,15 +28,15 @@ class User:
         return transactions_since_last_settled
 
     def create_settle_up_transaction(self, their_name, my_subtransactions, their_subtransactions):
+        # amount is an int, where -1000 = a £1 expense.
         amount = 0
         subtransactions = []
 
         for subtransaction in my_subtransactions:
-            # If the value of a split transaction is odd, round it up, so it can be split evenly.
-            # amount is an int, where 1000 = £1.
+            # If the value of a split transaction is odd, round it so it can be split evenly.
             split_subtransaction_amount = subtransaction['amount'] // 2
             if (split_subtransaction_amount // 10) % 2 == 1:
-               split_subtransaction_amount += 5
+               split_subtransaction_amount -= 5
 
             amount -= split_subtransaction_amount
             subtransactions.append({
@@ -46,11 +46,11 @@ class User:
             })
 
         for subtransaction in their_subtransactions:
-            # If the value of a split transaction is odd, round it up, so it can be split evenly.
+            # If the value of a split transaction is odd, round it so it can be split evenly.
             # amount is an int, where 1000 = £1.
             split_subtransaction_amount = subtransaction['amount'] // 2
             if (split_subtransaction_amount // 10) % 2 == 1:
-                split_subtransaction_amount += 5
+                split_subtransaction_amount -= 5
 
             amount += split_subtransaction_amount
             subtransactions.append({
