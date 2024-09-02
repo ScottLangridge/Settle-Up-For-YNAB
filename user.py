@@ -35,7 +35,7 @@ class User:
         for subtransaction in my_subtransactions:
             # If the value of a split transaction is odd, round it so it can be split evenly.
             split_subtransaction_amount = subtransaction['amount'] // 2
-            if (split_subtransaction_amount // 10) % 2 == 1:
+            if (subtransaction['amount'] // 10) % 2 == 1:
                split_subtransaction_amount -= 5
 
             amount -= split_subtransaction_amount
@@ -49,7 +49,7 @@ class User:
             # If the value of a split transaction is odd, round it so it can be split evenly.
             # amount is an int, where 1000 = £1.
             split_subtransaction_amount = subtransaction['amount'] // 2
-            if (split_subtransaction_amount // 10) % 2 == 1:
+            if (subtransaction['amount'] // 10) % 2 == 1:
                 split_subtransaction_amount -= 5
 
             amount += split_subtransaction_amount
