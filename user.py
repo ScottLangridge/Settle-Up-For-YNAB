@@ -14,11 +14,17 @@ class User:
         self.settle_up_transaction_flag = SECRETS[secrets_id]['settle_up_transaction_flag']
 
     def get_transactions_since_last_settled(self):
+        today = datetime.now().strftime("%Y-%m-%d")
         last_settled_date = '1970-01-01'
         transactions = self.ynab.get_transactions()
         transactions_since_last_settled = []
         for i in transactions[::-1]:
-            if i['date'] < last_settled_date:
+            if i['date'] == today:
+                # Temporary fix for GitHub issue #1
+                # Do not include transactions on the same day as the settle to prevent duplicates.
+                # They will be captured by the next one.
+                continue
+            elif i['date'] < last_settled_date:
                 break
             elif i['flag_color'] == self.split_transaction_flag:
                 transactions_since_last_settled.append(i)
