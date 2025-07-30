@@ -59,5 +59,5 @@ class Ynab:
             'Authorization': f'Bearer {self.api_token}'
         }
         response = requests.post(self.ROOT_URL + endpoint, headers=headers, data=json.dumps(params))
-        assert response.ok, f'Response to GET had status code {response.status_code}\nRequest: {curlify.to_curl(response.request)}'
+        assert response.ok, f'Response to POST had status code {response.status_code}\nRequest: {curlify.to_curl(response.request)}'
         return response.json()['data']
